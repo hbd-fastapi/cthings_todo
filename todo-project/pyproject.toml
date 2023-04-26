@@ -8,6 +8,7 @@ authors = ["maciej.sitowski <maciej.sitowski@gmail.com>"]
 python = "^3.11"
 fastapi = "0.94.1"
 uvicorn = "0.21.1"
+motor = "2.5.1"
 
 [tool.poetry.dev-dependencies]
 
