@@ -17,3 +17,10 @@ from app.models.task import (
 )
 
 router = APIRouter()
+
+
+@router.post("/", response_description="Task data added into the database")
+async def add_task_data(task: TaskSchema = Body(...)):
+    task = jsonable_encoder(task)
+    new_task = await add_task(task)
+    return ResponseModel(new_task, "Student added successfully.")

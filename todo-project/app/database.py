@@ -2,7 +2,7 @@ from bson.objectid import ObjectId
 import motor.motor_asyncio
 
 
-MONGO_DETAILS = "mongodb://localhost:27017"
+MONGO_DETAILS = "mongodb://admin:password@mongodb:27017/tasks"
 
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 
@@ -31,7 +31,7 @@ async def retrieve_tasks():
 # Add a new task into to the database
 async def add_task(task_data: dict) -> dict:
     task = await task_collection.insert_one(task_data)
-    new_task = await task_collection.find_one({"_id": ObjectId(id)})
+    new_task = await task_collection.find_one({"_id": task.inserted_id})
     return task_helper(new_task)
 
 
@@ -43,7 +43,7 @@ async def retrieve_task(id: str) -> dict:
 
 
 # Update a task with a matching ID
-async def update_student(id: str, data: dict):
+async def update_task(id: str, data: dict):
     if len(data) < 1:
         return False
     task = await task_collection.find_one({"_id": ObjectId(id)})
@@ -56,8 +56,8 @@ async def update_student(id: str, data: dict):
         return False
 
 
-# Delete a student from the database
-async def delete_student(id: str):
+# Delete a task from the database
+async def delete_task(id: str):
     task = await task_collection.find_one({"_id": ObjectId(id)})
     if task:
         await task_collection.delete_one({"_id": ObjectId(id)})

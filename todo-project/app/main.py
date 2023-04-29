@@ -1,11 +1,13 @@
 from fastapi import FastAPI, Depends
-from app.config import get_settings, Settings
+from app.routes.task import router as TaskRouter
 
 app = FastAPI()
 
+app.include_router(TaskRouter, tags=["Task"], prefix="/task")
 
-@app.get("/")
-async def task(settings: Settings = Depends(get_settings)):
+
+@app.get("/", tags=["Root"])
+async def task():
     """This is the initial task
 
     Returns:
